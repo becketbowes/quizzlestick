@@ -1,13 +1,5 @@
 //start with a java generated display for welcome page and timer
-//make the timer function
-//make an array1 of array2s with each array1 being a question containing an array2 of awnsers, one of which reads false.
-//for loop the array1 through display on click
-//generate a value for the return buttons depending on the true value of the array2
-//onclick for the wrong value deducts time function, flashes error, goes to next array1
-//onclick for the right value goes to next item in array1
-//onclick to last array1 saves time as score.
-//if high score, save initials, ask to play again
-//else, return score, high score and ask to play again.
+var time = 300000
 var body = document.body;
 var header = document.createElement("header");
 var scoreTime = document.createElement("ul");
@@ -25,7 +17,7 @@ var answerL5 = document.createElement("li");
 var buttonL = document.createElement("h1");
 
 scoreL.textContent = "High Scores";
-timerL.textContent = "Time: 0"
+timerL.textContent = "Time"
 questionL.textContent = "Coding History Challenge";
 answerL1.textContent = "Try answering these questions about the history of coding within the time limit. You will be penalized 10 seconds for any wrong answers.";
 answerL2.textContent = "";
@@ -50,3 +42,72 @@ quiz.appendChild(buttonL);
 
 section.setAttribute("style", "padding: 100px 30%; align-content: center;")
 buttonL.setAttribute("style", "font-weight:bold; text-decoration: underline;");
+
+//make the timer function
+import java.util.Scanner;
+
+public class StopWatchDemo {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Time: ");
+
+        long start = System.currentTimeMillis();
+        String input = scanner.nextLine();
+        long end = System.currentTimeMillis();
+
+        double elapsedSeconds = (end - start) / 1000.0;
+        System.out.println("User input: " + input);
+        System.out.println("Time taken (sec): " + elapsedSeconds);
+    }
+};
+
+// var tick = function() {
+//     while (time > 0) {
+//             setTimeout((time = time -1), 1000);
+//             timerL.textContent = ("Time: " + time);
+//         }
+//     };
+//     var milsec = 300000
+//     var minSec = milsec / 100
+//     var min = minSec / 60
+    
+//     for (var i = 0; i < 300000; i++)
+//     var minSec = (setTimeout(-1, 10) + minSec);
+
+//     var sec = (min%);
+//     timerL.textContent = ("Time: " + min + ":" + sec);
+// };
+
+// var tick = function(time) {
+//     for (var i = 0; i < time; i++)
+//     if (time > 0) {
+//         setTimeout(time -100, 100)
+//         setTimeout(timerL.textContent = ("Time: " + time), 100);
+//     }
+// };
+
+var timesUp = function() {
+// record score
+// show end screen    
+};
+
+var startTest = function() {
+    tick();
+    // setTimeout(timesUp, 3000000);
+    // runQuestions();
+};
+
+buttonL.addEventListener("click", startTest);
+
+
+
+
+//make an array1 of array2s with each array1 being a question containing an array2 of awnsers, one of which reads false.
+//for loop the array1 through display on click
+//generate a value for the return buttons depending on the true value of the array2
+//onclick for the wrong value deducts time function, flashes error, goes to next array1
+//onclick for the right value goes to next item in array1
+//onclick to last array1 saves time as score.
+//if high score, save initials, ask to play again
+//else, return score, high score and ask to play again.
