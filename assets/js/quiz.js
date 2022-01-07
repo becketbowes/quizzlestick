@@ -44,30 +44,50 @@ section.setAttribute("style", "padding: 100px 30%; align-content: center;")
 buttonL.setAttribute("style", "font-weight:bold; text-decoration: underline;");
 
 //make the timer function
-import java.util.Scanner;
 
-public class StopWatchDemo {
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Time: ");
-
-        long start = System.currentTimeMillis();
-        String input = scanner.nextLine();
-        long end = System.currentTimeMillis();
-
-        double elapsedSeconds = (end - start) / 1000.0;
-        System.out.println("User input: " + input);
-        System.out.println("Time taken (sec): " + elapsedSeconds);
-    }
+var tick = function() {
+        setInterval(function () {
+        time = (time - 
+            1)
+        timerL.textContent = ("Time: " + time)
+}, 1000);
 };
 
+
+// var tick = setInterval(function () {
+//         for (var i = 0; i < time; i++) if (1 > 0) {
+//             time = (time - 1);
+//             timerL.textContent = ("Time: " + time);
+//         }
+// }, 1000);
+
+// var tick = function() {
+//     setInterval(tock(), 1000);
+//     
+// };
+
+// var tock = function() {  
+//     while (time > 0) {
+//         this[time] = (time - 1000);
+        
+//     }
+// };
+
+
+// var tick = setInterval(function() {
+//     while (time > 0) {
+//         time = (time - 1);
+//         timerL.textContent = ("Time: " + time);
+//     }
+// }, 1000);
 // var tick = function() {
 //     while (time > 0) {
 //             setTimeout((time = time -1), 1000);
 //             timerL.textContent = ("Time: " + time);
 //         }
 //     };
+
+
 //     var milsec = 300000
 //     var minSec = milsec / 100
 //     var min = minSec / 60
@@ -87,13 +107,14 @@ public class StopWatchDemo {
 //     }
 // };
 
-var timesUp = function() {
+// var timesUp = function() {
 // record score
 // show end screen    
-};
+// };
 
 var startTest = function() {
     tick();
+    buttonL.removeEventListener("click", startTest);
     // setTimeout(timesUp, 3000000);
     // runQuestions();
 };
