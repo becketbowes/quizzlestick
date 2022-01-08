@@ -1,5 +1,6 @@
 //start with a java generated display for welcome page and timer
-var time = 300000
+var time = 100
+var score = 0 
 var body = document.body;
 var header = document.createElement("header");
 var scoreTime = document.createElement("ul");
@@ -43,80 +44,166 @@ quiz.appendChild(buttonL);
 section.setAttribute("style", "padding: 100px 30%; align-content: center;")
 buttonL.setAttribute("style", "font-weight:bold; text-decoration: underline;");
 
-//make the timer function
+//quiz question objects:
+const poser1 = {
+    qq:"JavaScript was developed in which year?",
+    a1:"1981", 
+    a2:"1984",
+    a3:"1985",
+    a4:"1991",
+    a5:"1995",
+    key:"a5"
+};
+const poser2 = {
+    q2:"What was the original name of JavaScript?",
+    a1:"PumpkinSpice",
+    a2:"Cocoa",
+    a3:"Mocha",
+    a4:"Toddy",
+    a5:"Keurig"
+};
+const poser3 = {
+    q3:"Who invented JavaScript?",
+    a1:"Alan Turing",
+    a2:"Claude Shannon",
+    a3:"Ada Lovelace",
+    a4:"Brendan Eich",
+    a5:"Katherine Johnson"
+};
+const poser4 = {
+    q4:"How Long did it take Brendan Eich to write JavaScript?",
+    a1:"10 hours",
+    a2:"10 days",
+    a3:"10 weeks",
+    a4:"11 weeks",
+    a5:"10 months"
+};
+const poser5 = {
+    q5:"JavaScript was written for what browser?",
+    a1:"IBM Web Explorer",
+    a2:"OS/2 Web Explorer",
+    a3:"Apple Web Explorer",
+    a4:"Microsoft Exporer",
+    a5:"Netscape Navigator"
+};
+const poser6 = {
+    q6:"Who currently maintains and develops JavaScript?",
+    a1:"European Computer Manufacturer's Association (ECMA)",
+    a2:"Cyberdyne Systems",
+    a3:"Mozilla",
+    a4:"WikiCode",
+    a5:"Linux Support Community"
+};
 
+//array of the objects
+var posers = [poser1, poser2, poser3, poser4, poser5, poser6];
+
+//make the timer function
 var tick = function() {
-        setInterval(function () {
-        time = (time - 
-            1)
-        timerL.textContent = ("Time: " + time)
-}, 1000);
+    if(time > 0) {
+        setInterval(function() {
+        timerL.textContent = "Time Remaining: " + time;
+        time --;
+        }, 1000);
+        //endGame
+        clearInterval(tick);
+    }
+};
+
+//reset page text function
+var clearText = function () {
+    questionL.textContent = "";
+    answerL1.textContent = "";
+    answerL2.textContent = "";
+    answerL3.textContent = "";
+    answerL4.textContent = "";
+    answerL5.textContent = "";
+    buttonL.textContent = "";
 };
 
 
-// var tick = setInterval(function () {
-//         for (var i = 0; i < time; i++) if (1 > 0) {
-//             time = (time - 1);
-//             timerL.textContent = ("Time: " + time);
-//         }
-// }, 1000);
+//play the game
+var quizzle = function () { 
+    //reformatting page for test
 
-// var tick = function() {
-//     setInterval(tock(), 1000);
-//     
-// };
 
-// var tock = function() {  
-//     while (time > 0) {
-//         this[time] = (time - 1000);
+    //diplay 
+    for (var i = 0; i < posers.length; i++) if (1 > 0) {
+        var cQ = 0;
+        var rightO = function() {
+            score++;
+            scoreL.textContent = score + "/" + posers.length;
+            clearText();
+            setInterval(() => {
+                questionL.textContent = "Right!";
+                clearInterval(checkAwnser);
+            }, 500);
+            cQ++;
+            }; 
         
-//     }
-// };
+        var wrongO = function() {
+                runError();
+                (time = time - 10);
+                clearText();
+                setInterval(() => {
+                    questionL.textContent = "ERROR"
+                    questionL.setAttribute ("style", "transform:rotate(180deg);");
+                }, 500);
+                questionL.setAttribute ("style", "transform:rotate(0deg);");
+                cQ++;
+            }; 
 
+        var thisQuestion = posers[cQ];
+             questionL.textContent = thisQuestion.qq;
+             questionL.setAttribute = ("id", thisQuestion.key);
+             answerL1.textContent = thisQuestion.a1;
+             answerL1.addEventListener("mouseover", function( event ) { event.target.style.color = "white"; });
+             answerL1.addEventListener("mouseout", function( event ) { event.target.style.color = "color=rgb(110, 253, 158)"; });
+             answerL1.addEventListener("click", function (event) {
+                 var answerTry = event.target.id
+                 if(answerTry.matches(thisQuestion.key)) {rightO()} else {wrongO()};
+             });
+             answerL2.textContent = thisQuestion.a2;
+             answerL2.addEventListener("mouseover", function( event ) { event.target.style.color = "white"; });
+             answerL2.addEventListener("mouseout", function( event ) { event.target.style.color = "color=rgb(110, 253, 158)"; });
+             answerL2.addEventListener("click", function (event) {
+                var answerTry = event.target.id
+                if(answerTry.matches(thisQuestion.key)) {rightO()} else {wrongO()};
+            });
+             answerL3.textContent = thisQuestion.a3;
+             answerL3.addEventListener("mouseover", function( event ) { event.target.style.color = "white"; });
+             answerL3.addEventListener("mouseout", function( event ) { event.target.style.color = "color=rgb(110, 253, 158)"; });
+             answerL3.addEventListener("click", function (event) {
+                var answerTry = event.target.id
+                if(answerTry.matches(thisQuestion.key)) {rightO()} else {wrongO()};
+            });
+             answerL4.textContent = thisQuestion.a4;
+             answerL4.addEventListener("mouseover", function( event ) { event.target.style.color = "white"; });
+             answerL4.addEventListener("mouseout", function( event ) { event.target.style.color = "color=rgb(110, 253, 158)"; });
+             answerL4.addEventListener("click", function (event) {
+                var answerTry = event.target.id
+                if(answerTry.matches(thisQuestion.key)) {rightO()} else {wrongO()};
+            });
+             answerL5.textContent = thisQuestion.a5;
+             answerL5.addEventListener("mouseover", function( event ) { event.target.style.color = "white"; });
+             answerL5.addEventListener("mouseout", function( event ) { event.target.style.color = "color=rgb(110, 253, 158)"; });
+             answerL5.addEventListener("click", function (event) {
+                var answerTry = event.target.id
+                if(answerTry.matches(thisQuestion.key)) {rightO()} else {wrongO()};
+            });
+    }
+};
 
-// var tick = setInterval(function() {
-//     while (time > 0) {
-//         time = (time - 1);
-//         timerL.textContent = ("Time: " + time);
-//     }
-// }, 1000);
-// var tick = function() {
-//     while (time > 0) {
-//             setTimeout((time = time -1), 1000);
-//             timerL.textContent = ("Time: " + time);
-//         }
-//     };
-
-
-//     var milsec = 300000
-//     var minSec = milsec / 100
-//     var min = minSec / 60
-    
-//     for (var i = 0; i < 300000; i++)
-//     var minSec = (setTimeout(-1, 10) + minSec);
-
-//     var sec = (min%);
-//     timerL.textContent = ("Time: " + min + ":" + sec);
-// };
-
-// var tick = function(time) {
-//     for (var i = 0; i < time; i++)
-//     if (time > 0) {
-//         setTimeout(time -100, 100)
-//         setTimeout(timerL.textContent = ("Time: " + time), 100);
-//     }
-// };
-
-// var timesUp = function() {
+// var endGame = function() {
 // record score
 // show end screen    
 // };
 
 var startTest = function() {
     tick();
-    buttonL.removeEventListener("click", startTest);
-    // setTimeout(timesUp, 3000000);
-    // runQuestions();
+    clearText();
+    quizzle();
+    
 };
 
 buttonL.addEventListener("click", startTest);
