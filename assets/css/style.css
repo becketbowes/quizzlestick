@@ -38,7 +38,16 @@ header li #timerShow {
     flex: 1;
 }
 
-.error {
-    transform: 180;
-    color: var(--highlightgreen);
+h2 {
+    font-family: 'Menlo', 'Courier New', Courier, monospace;
+    color: red;
+    transform: rotate(180deg);
+    font-size: 200px;
 }
+
+li:hover {
+    color:var(--darkgreen);
+    background-color:var(--textgreen);
+}
+
+

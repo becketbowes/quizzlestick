@@ -1,6 +1,7 @@
 //start with a java generated display for welcome page and timer
-var time = 100
-var score = 0 
+var time = 120;
+var score = 0;
+var cQ = 0;
 var body = document.body;
 var header = document.createElement("header");
 var scoreTime = document.createElement("ul");
@@ -46,68 +47,83 @@ buttonL.setAttribute("style", "font-weight:bold; text-decoration: underline;");
 
 //quiz question objects:
 const poser1 = {
-    qq:"JavaScript was developed in which year?",
-    a1:"1981", 
-    a2:"1984",
-    a3:"1985",
-    a4:"1991",
-    a5:"1995",
-    key:"a5"
+    qq: "JavaScript was developed in which year?",
+    a1: "1981",
+    a2: "1984",
+    a3: "1985",
+    a4: "1991",
+    a5: "1995",
+    key: "<li>1995<li>"
 };
 const poser2 = {
-    q2:"What was the original name of JavaScript?",
-    a1:"PumpkinSpice",
-    a2:"Cocoa",
-    a3:"Mocha",
-    a4:"Toddy",
-    a5:"Keurig"
+    qq: "What was the original name of JavaScript?",
+    a1: "PumpkinSpice",
+    a2: "Cocoa",
+    a3: "Mocha",
+    a4: "Toddy",
+    a5: "Keurig",
+    key: "<li>Mocha<li>"
 };
 const poser3 = {
-    q3:"Who invented JavaScript?",
-    a1:"Alan Turing",
-    a2:"Claude Shannon",
-    a3:"Ada Lovelace",
-    a4:"Brendan Eich",
-    a5:"Katherine Johnson"
+    qq: "Who invented JavaScript?",
+    a1: "Alan Turing",
+    a2: "Claude Shannon",
+    a3: "Ada Lovelace",
+    a4: "Brendan Eich",
+    a5: "Katherine Johnson",
+    key: "<li>Brendan Eich<li>"
 };
 const poser4 = {
-    q4:"How Long did it take Brendan Eich to write JavaScript?",
-    a1:"10 hours",
-    a2:"10 days",
-    a3:"10 weeks",
-    a4:"11 weeks",
-    a5:"10 months"
+    qq: "How Long did it take Brendan Eich to write JavaScript?",
+    a1: "10 hours",
+    a2: "10 days",
+    a3: "10 weeks",
+    a4: "11 weeks",
+    a5: "10 months",
+    key: "<li>10 days<li>"
 };
 const poser5 = {
-    q5:"JavaScript was written for what browser?",
-    a1:"IBM Web Explorer",
-    a2:"OS/2 Web Explorer",
-    a3:"Apple Web Explorer",
-    a4:"Microsoft Exporer",
-    a5:"Netscape Navigator"
+    qq: "JavaScript was written for what browser?",
+    a1: "IBM Web Explorer",
+    a2: "OS/2 Web Explorer",
+    a3: "Apple Web Explorer",
+    a4: "Microsoft Exporer",
+    a5: "Netscape Navigator",
+    key: "<li>Netscape Navigator<li>"
 };
 const poser6 = {
-    q6:"Who currently maintains and develops JavaScript?",
-    a1:"European Computer Manufacturer's Association (ECMA)",
-    a2:"Cyberdyne Systems",
-    a3:"Mozilla",
-    a4:"WikiCode",
-    a5:"Linux Support Community"
+    qq: "Who currently maintains and develops JavaScript?",
+    a1: "European Computer Manufacturer's Association (ECMA)",
+    a2: "Cyberdyne Systems",
+    a3: "Mozilla",
+    a4: "WikiCode",
+    a5: "Linux Support Community",
+    key: "<li>Mozilla<li>"
 };
 
-//array of the objects
+//array of the quiz question objects:
 var posers = [poser1, poser2, poser3, poser4, poser5, poser6];
 
 //make the timer function
-var tick = function() {
-    if(time > 0) {
-        setInterval(function() {
-        timerL.textContent = "Time Remaining: " + time;
-        time --;
+var tick = function () {
+    if (time > 0) {
+        setInterval(function () {
+            time--;
+            var minute = parseInt(time / 60);
+            var second = parseInt(time % 60);
+            var clock = (minute+ ":" + second);
+            timerL.textContent = "Time Remaining: " + clock;
         }, 1000);
-        //endGame
+    } else {
         clearInterval(tick);
+        timerL.textContent = "0:00";
+        endGame();
     }
+};
+
+//make scorekeeper function
+var tock = function () {
+    scoreL.textContent = score + "/" + posers.length;
 };
 
 //reset page text function
@@ -121,95 +137,107 @@ var clearText = function () {
     buttonL.textContent = "";
 };
 
-
 //play the game
-var quizzle = function () { 
-    //reformatting page for test
 
-
-    //diplay 
-    for (var i = 0; i < posers.length; i++) if (1 > 0) {
-        var cQ = 0;
-        var rightO = function() {
-            score++;
-            scoreL.textContent = score + "/" + posers.length;
-            clearText();
-            setInterval(() => {
-                questionL.textContent = "Right!";
-                clearInterval(checkAwnser);
-            }, 500);
-            cQ++;
-            }; 
-        
-        var wrongO = function() {
-                runError();
-                (time = time - 10);
-                clearText();
-                setInterval(() => {
-                    questionL.textContent = "ERROR"
-                    questionL.setAttribute ("style", "transform:rotate(180deg);");
-                }, 500);
-                questionL.setAttribute ("style", "transform:rotate(0deg);");
-                cQ++;
-            }; 
-
-        var thisQuestion = posers[cQ];
-             questionL.textContent = thisQuestion.qq;
-             questionL.setAttribute = ("id", thisQuestion.key);
-             answerL1.textContent = thisQuestion.a1;
-             answerL1.addEventListener("mouseover", function( event ) { event.target.style.color = "white"; });
-             answerL1.addEventListener("mouseout", function( event ) { event.target.style.color = "color=rgb(110, 253, 158)"; });
-             answerL1.addEventListener("click", function (event) {
-                 var answerTry = event.target.id
-                 if(answerTry.matches(thisQuestion.key)) {rightO()} else {wrongO()};
-             });
-             answerL2.textContent = thisQuestion.a2;
-             answerL2.addEventListener("mouseover", function( event ) { event.target.style.color = "white"; });
-             answerL2.addEventListener("mouseout", function( event ) { event.target.style.color = "color=rgb(110, 253, 158)"; });
-             answerL2.addEventListener("click", function (event) {
-                var answerTry = event.target.id
-                if(answerTry.matches(thisQuestion.key)) {rightO()} else {wrongO()};
-            });
-             answerL3.textContent = thisQuestion.a3;
-             answerL3.addEventListener("mouseover", function( event ) { event.target.style.color = "white"; });
-             answerL3.addEventListener("mouseout", function( event ) { event.target.style.color = "color=rgb(110, 253, 158)"; });
-             answerL3.addEventListener("click", function (event) {
-                var answerTry = event.target.id
-                if(answerTry.matches(thisQuestion.key)) {rightO()} else {wrongO()};
-            });
-             answerL4.textContent = thisQuestion.a4;
-             answerL4.addEventListener("mouseover", function( event ) { event.target.style.color = "white"; });
-             answerL4.addEventListener("mouseout", function( event ) { event.target.style.color = "color=rgb(110, 253, 158)"; });
-             answerL4.addEventListener("click", function (event) {
-                var answerTry = event.target.id
-                if(answerTry.matches(thisQuestion.key)) {rightO()} else {wrongO()};
-            });
-             answerL5.textContent = thisQuestion.a5;
-             answerL5.addEventListener("mouseover", function( event ) { event.target.style.color = "white"; });
-             answerL5.addEventListener("mouseout", function( event ) { event.target.style.color = "color=rgb(110, 253, 158)"; });
-             answerL5.addEventListener("click", function (event) {
-                var answerTry = event.target.id
-                if(answerTry.matches(thisQuestion.key)) {rightO()} else {wrongO()};
-            });
-    }
+//right answer function
+var rightO = function () {
+    score++;
+    scoreL.textContent = score + "/" + posers.length;
+    clearText();
+    questionL.textContent = "Right!";
+    setTimeout(() => {
+        clearInterval(rightO);
+        cQ++;
+        quizzle();
+    }, 500);
 };
+
+//wrong answer function
+var wrongO = function () {
+    (time = time - 10);
+    clearText();
+    var error = document.createElement("h2");
+    error.textContent = "ERROR"
+    quiz.appendChild (error);
+    setTimeout(() => {
+        error.textContent = "";
+        cQ++;
+        quizzle();
+    }, 500);
+};
+
+//endGame function
+var endGame = function () {
+    clearText();
+    questionL.textContent = "GAME OVER"
+};
+
+//question function
+var quizzle = function () {
+    //call question object from array
+    var thisQuestion = posers[cQ];
+    //reformat text on page to question/key 
+    questionL.textContent = thisQuestion.qq;
+    console.log(thisQuestion.qq)
+    questionL.setAttribute = "#" + thisQuestion.key;
+    console.log(thisQuestion.key);
+    //...and awnser buttons
+    answerL1.textContent = thisQuestion.a1;
+    answerL1.addEventListener("click", function (event) {
+        if (event.target === thisQuestion.key) { rightO(); } else { wrongO(); };
+        console.log(event.target);
+        console.log(thisQuestion);
+    });
+    answerL2.textContent = thisQuestion.a2;
+    answerL2.addEventListener("click", function (event) {
+        if (event.target === thisQuestion.key) { rightO(); } else { wrongO(); };
+        console.log(event.target);
+        console.log(thisQuestion);
+    });
+    answerL3.textContent = thisQuestion.a3;
+    answerL3.addEventListener("click", function (event) {
+        if (event.target === thisQuestion.key) { rightO(); } else { wrongO(); };
+        console.log(event.target);
+        console.log(thisQuestion);
+    });
+    answerL4.textContent = thisQuestion.a4;
+    answerL4.addEventListener("click", function (event) {
+        if (event.target === thisQuestion.key) { rightO(); } else { wrongO(); };
+        console.log(event.target);
+        console.log(thisQuestion);
+    });
+    answerL5.textContent = thisQuestion.a5;
+    answerL5.addEventListener("click", function (event) {
+        if (event.target === thisQuestion.key) { rightO(); } else { wrongO(); };
+        console.log(event.target);
+        console.log(thisQuestion);
+    });
+};
+
+// if (time = 0 || -1) {endGame()};
+
 
 // var endGame = function() {
 // record score
 // show end screen    
 // };
 
-var startTest = function() {
+var startTest = function (event) {
+    event.preventDefault()
     tick();
+    tock();
     clearText();
     quizzle();
-    
+    setTimeout(() => {
+        endGame();
+    }, 100000);
 };
 
 buttonL.addEventListener("click", startTest);
 
 
-
+//lookup rerendering
+//put lis as hover over in css
 
 //make an array1 of array2s with each array1 being a question containing an array2 of awnsers, one of which reads false.
 //for loop the array1 through display on click
