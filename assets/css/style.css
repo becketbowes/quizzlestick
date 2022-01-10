@@ -45,7 +45,8 @@ h2 {
     font-size: 200px;
 }
 
-li:hover {
+li .question:hover {
+    cursor: pointer;
     color:var(--darkgreen);
     background-color:var(--textgreen);
 }

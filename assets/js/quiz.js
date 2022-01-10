@@ -9,6 +9,7 @@ var scoreL = document.createElement("li");
 var ul2 = document.createElement("ul");
 var timerL = document.createElement("li");
 var section = document.createElement("section");
+var error = document.createElement("h2")
 var quiz = document.createElement("ul");
 var questionL = document.createElement("h1");
 var answerL1 = document.createElement("li");
@@ -34,6 +35,7 @@ scoreTime.appendChild(scoreL);
 scoreTime.appendChild(timerL);
 body.appendChild(section);
 section.appendChild(quiz);
+section.appendChild(error);
 quiz.appendChild(questionL);
 quiz.appendChild(answerL1);
 quiz.appendChild(answerL2);
@@ -42,6 +44,16 @@ quiz.appendChild(answerL4);
 quiz.appendChild(answerL5);
 quiz.appendChild(buttonL);
 
+answerL1.setAttribute("class", "question");
+answerL1.setAttribute("id", "1");
+answerL2.setAttribute("class", "question");
+answerL2.setAttribute("id", "2");
+answerL3.setAttribute("class", "question");
+answerL3.setAttribute("id", "3");
+answerL4.setAttribute("class", "question");
+answerL4.setAttribute("id", "4");
+answerL5.setAttribute("class", "question");
+answerL5.setAttribute("id", "5");
 section.setAttribute("style", "padding: 100px 30%; align-content: center;")
 buttonL.setAttribute("style", "font-weight:bold; text-decoration: underline;");
 
@@ -52,8 +64,7 @@ const poser1 = {
     a2: "1984",
     a3: "1985",
     a4: "1991",
-    a5: "1995",
-    key: "1995"
+    a5: "1995"
 };
 const poser2 = {
     qq: "What was the original name of JavaScript?",
@@ -61,8 +72,7 @@ const poser2 = {
     a2: "Cocoa",
     a3: "Mocha",
     a4: "Toddy",
-    a5: "Keurig",
-    key: "Mocha",
+    a5: "Keurig"
 };
 const poser3 = {
     qq: "Who invented JavaScript?",
@@ -70,8 +80,7 @@ const poser3 = {
     a2: "Claude Shannon",
     a3: "Ada Lovelace",
     a4: "Brendan Eich",
-    a5: "Katherine Johnson",
-    key: "Brendan Eich",
+    a5: "Katherine Johnson"
 };
 const poser4 = {
     qq: "How Long did it take Brendan Eich to write JavaScript?",
@@ -79,8 +88,7 @@ const poser4 = {
     a2: "10 days",
     a3: "10 weeks",
     a4: "11 weeks",
-    a5: "10 months",
-    key: "10 days",
+    a5: "10 months"
 };
 const poser5 = {
     qq: "JavaScript was written for what browser?",
@@ -88,8 +96,7 @@ const poser5 = {
     a2: "OS/2 Web Explorer",
     a3: "Apple Web Explorer",
     a4: "Microsoft Exporer",
-    a5: "Netscape Navigator",
-    key: "Netscape Navigator",
+    a5: "Netscape Navigator"
 };
 const poser6 = {
     qq: "Who currently maintains and develops JavaScript?",
@@ -98,23 +105,22 @@ const poser6 = {
     a3: "Mozilla",
     a4: "WikiCode",
     a5: "Linux Support Community",
-    key: "Mozilla",
 };
 
 //array of the quiz question objects:
 var posers = [poser1, poser2, poser3, poser4, poser5, poser6];
-var riposters = ["1995", "Mocha", "Brendan Eich", "10 days", "Netscape Navigator", "Mozilla"]
+var key = [5, 3, 4, 2, 5, 3]
 
 //make the timer function
 var tick = function () {
     setInterval(function () {
         time--;
         var minute = parseInt(time / 60);
-        var second = parseInt(time % 60).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false});
+        var second = parseInt(time % 60).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
         var clock = (minute + ":" + second);
         timerL.textContent = "Time Remaining: " + clock;
     }, 1000);
-    if (time === 0 || time < 0) { 
+    if (time === 0 || time < 0) {
         endGame();
     }
 };
@@ -128,25 +134,10 @@ var tock = function () {
 var clearText = function () {
     questionL.textContent = "";
     answerL1.textContent = "";
-    answerL1.removeEventListener("click", function (event) {
-        if (event.target.textContent === riposters[questionId]) { rightO(); } else { wrongO(); };
-    });
     answerL2.textContent = "";
-    answerL2.removeEventListener("click", function (event) {
-        if (event.target.textContent === riposters[questionId]) { rightO(); } else { wrongO(); };
-    });
     answerL3.textContent = "";
-    answerL3.removeEventListener("click", function (event) {
-        if (event.target.textContent === riposters[questionId]) { rightO(); } else { wrongO(); };
-    });
     answerL4.textContent = "";
-    answerL4.removeEventListener("click", function (event) {
-        if (event.target.textContent === riposters[questionId]) { rightO(); } else { wrongO(); };
-    });
     answerL5.textContent = "";
-    answerL5.removeEventListener("click", function (event) {
-        if (event.target.textContent === riposters[questionId]) { rightO(); } else { wrongO(); };
-    });
     buttonL.textContent = "";
 };
 
@@ -160,12 +151,12 @@ var rightO = function () {
     score++;
     scoreL.textContent = score + "/" + posers.length;
     //tell the user they got it right
-    clearText();
     questionL.textContent = "Right!";
     //back to the puzzle
     setTimeout(() => {
-        quizzle();
+        clearText();
     }, 500);
+    quizzle();
 };
 
 //wrong answer function
@@ -176,7 +167,6 @@ var wrongO = function () {
     (time = time - 10);
     //psychologically penalize the user
     clearText();
-    var error = document.createElement("h2");
     error.textContent = "ERROR"
     quiz.appendChild(error);
     //back to the puzzle
@@ -186,15 +176,14 @@ var wrongO = function () {
     }, 500);
 };
 
-//endGame function (to be elaborated with score keeping and such)
-var endGame = function () {
-    clearText();
-    timerL.textContent = "Time's Up!";
-    questionL.textContent = "GAME OVER"
-};
-
 //question function
 var quizzle = function () {
+    //add eventlistener to parent
+    quiz.addEventListener("click", function (event) {
+        if (event.target.id = key[questionId]) { rightO(); } else { wrongO(); };
+        console.log(event.target.id);
+        console.log(key[questionId]);
+    });
     if (time < 0 || questionId > posers.length) {
         endGame();
     } else {
@@ -202,30 +191,22 @@ var quizzle = function () {
         var thisQuestion = posers[questionId];
         //reformat text on page to question
         questionL.textContent = thisQuestion.qq;
-        //...and awnser buttons
+        //...and awnser text
         answerL1.textContent = thisQuestion.a1;
-        answerL1.addEventListener("click", function (event) {
-            if (event.target.textContent === riposters[questionId]) { rightO(); } else { wrongO(); };
-        });
         answerL2.textContent = thisQuestion.a2;
-        answerL2.addEventListener("click", function (event) {
-            if (event.target.textContent === riposters[questionId]) { rightO(); } else { wrongO(); };
-        });
         answerL3.textContent = thisQuestion.a3;
-        answerL3.addEventListener("click", function (event) {
-            if (event.target.textContent === riposters[questionId]) { rightO(); } else { wrongO(); };
-        });
         answerL4.textContent = thisQuestion.a4;
-        answerL4.addEventListener("click", function (event) {
-            if (event.target.textContent === riposters[questionId]) { rightO(); } else { wrongO(); };
-        });
         answerL5.textContent = thisQuestion.a5;
-        answerL5.addEventListener("click", function (event) {
-            console.log(event.target.textContent);
-            if (event.target.textContent === riposters[questionId]) { rightO(); } else { wrongO(); };
-        });
-    }
+    };
 };
+
+//endGame function (to be elaborated with score keeping and such)
+var endGame = function () {
+    clearText();
+    timerL.textContent = "Time's Up!";
+    questionL.textContent = "GAME OVER"
+};
+
 
 // record score
 // show end screen    
@@ -236,7 +217,9 @@ var startTest = function (event) {
     tick();
     tock();
     clearText();
-    quizzle();
+    setTimeout(() => {
+        quizzle()
+    }, 500);
     setTimeout(() => {
         clearInterval(tick);
         endGame();
