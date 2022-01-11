@@ -145,6 +145,13 @@ var clearText = function () {
 
 //right answer function
 var rightO = function () {
+    //reset questions
+    clearText();
+    quiz.removeEventListener("click", function (event) {
+        if (event.target.id = key[questionId]) { rightO(); } else { wrongO(); };
+        console.log(event.target.id);
+        console.log(key[questionId]);
+    }, false);
     //skip to next answer
     questionId++;
     //add to score and record it
@@ -154,19 +161,24 @@ var rightO = function () {
     questionL.textContent = "Right!";
     //back to the puzzle
     setTimeout(() => {
-        clearText();
+        quizzle();
     }, 500);
-    quizzle();
 };
 
 //wrong answer function
 var wrongO = function () {
+    //reset questions
+    clearText();
+    quiz.removeEventListener("click", function (event) {
+        if (event.target.id = key[questionId]) { rightO(); } else { wrongO(); };
+        console.log(event.target.id);
+        console.log(key[questionId]);
+    }, false);
     //skip to the next answer
     questionId++;
     //penalize the user
     (time = time - 10);
     //psychologically penalize the user
-    clearText();
     error.textContent = "ERROR"
     quiz.appendChild(error);
     //back to the puzzle
