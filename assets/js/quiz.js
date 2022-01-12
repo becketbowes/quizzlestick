@@ -113,14 +113,15 @@ var key = [5, 3, 4, 2, 5, 3]
 
 //make the timer function
 var tick = function () {
-    setInterval(function () {
-        time--;
-        var minute = parseInt(time / 60);
-        var second = parseInt(time % 60).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-        var clock = (minute + ":" + second);
-        timerL.textContent = "Time Remaining: " + clock;
-    }, 1000);
-    if (time === 0 || time < 0) {
+    if (time === 0 || time > 0) {
+        setInterval(function () {
+            time--;
+            var minute = parseInt(time / 60);
+            var second = parseInt(time % 60).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+            var clock = (minute + ":" + second);
+            timerL.textContent = "Time Remaining: " + clock;
+        }, 1000);
+    } else {
         endGame();
     }
 };
@@ -131,7 +132,7 @@ var tock = function () {
 };
 
 //reset page text function
-var clearText = function () {
+var clearQuiz = function () {
     questionL.textContent = "";
     answerL1.textContent = "";
     answerL2.textContent = "";
@@ -141,18 +142,25 @@ var clearText = function () {
     buttonL.textContent = "";
 };
 
+var clearAll = function () {
+    scoreL.textContent = "";
+    timerL.textContent = "";
+    questionL.textContent = "";
+    answerL1.textContent = "";
+    answerL2.textContent = "";
+    answerL3.textContent = "";
+    answerL4.textContent = "";
+    answerL5.textContent = "";
+    buttonL.textContent = "";
+};
+
+
 //play the game
 
 //right answer function
 var rightO = function () {
     //reset questions
-    clearText();
-    quiz.removeEventListener("click", function (event) {
-        if (event.target.id = key[questionId]) { rightO(); } else { wrongO(); };
-        console.log(event.target.id);
-        console.log(key[questionId]);
-    }, false);
-    //skip to next answer
+    clearQuiz();
     questionId++;
     //add to score and record it
     score++;
@@ -168,13 +176,8 @@ var rightO = function () {
 //wrong answer function
 var wrongO = function () {
     //reset questions
-    clearText();
-    quiz.removeEventListener("click", function (event) {
-        if (event.target.id = key[questionId]) { rightO(); } else { wrongO(); };
-        console.log(event.target.id);
-        console.log(key[questionId]);
-    }, false);
-    //skip to the next answer
+    clearQuiz();
+    //skip to the next question/awnser object
     questionId++;
     //penalize the user
     (time = time - 10);
@@ -190,12 +193,6 @@ var wrongO = function () {
 
 //question function
 var quizzle = function () {
-    //add eventlistener to parent
-    quiz.addEventListener("click", function (event) {
-        if (event.target.id = key[questionId]) { rightO(); } else { wrongO(); };
-        console.log(event.target.id);
-        console.log(key[questionId]);
-    });
     if (time < 0 || questionId > posers.length) {
         endGame();
     } else {
@@ -214,7 +211,7 @@ var quizzle = function () {
 
 //endGame function (to be elaborated with score keeping and such)
 var endGame = function () {
-    clearText();
+    clearAll();
     timerL.textContent = "Time's Up!";
     questionL.textContent = "GAME OVER"
 };
@@ -228,10 +225,23 @@ var startTest = function (event) {
     event.preventDefault()
     tick();
     tock();
-    clearText();
+    clearQuiz();
     setTimeout(() => {
+        //add eventlistener to question area
+        quiz.addEventListener("click", function (event) {
+            console.log(event.target.id);
+            console.log(key[questionId]);
+            if (event.target.id == key[questionId]) {
+                console.log("test")
+                rightO();
+            } else {
+                wrongO();
+            };
+        });
+        //play the game don't let the game play you
         quizzle()
     }, 500);
+    //ensure the game will end one day
     setTimeout(() => {
         clearInterval(tick);
         endGame();
