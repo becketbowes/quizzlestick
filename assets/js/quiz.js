@@ -18,6 +18,7 @@ var answerL3 = document.createElement("li");
 var answerL4 = document.createElement("li");
 var answerL5 = document.createElement("li");
 var buttonL = document.createElement("h1");
+var cursor = document.createElement("p");
 
 scoreL.textContent = "High Scores";
 timerL.textContent = "Time"
@@ -111,16 +112,19 @@ const poser6 = {
 var posers = [poser1, poser2, poser3, poser4, poser5, poser6];
 var key = [5, 3, 4, 2, 5, 3]
 
+//clockworks
+var theInevitableHeatDeathOfTheUniverseManifest = setInterval(theInevitableInformationDeathOfTheUniverse, 1000);
+var theInevitableInformationDeathOfTheUniverse = function () {
+    time--;
+    var minute = parseInt(time / 60);
+    var second = parseInt(time % 60).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+    var clock = (minute + ":" + second);
+    timerL.textContent = "Time Remaining: " + clock;
+};
 //make the timer function
 var tick = function () {
-    if (time === 0 || time > 0) {
-        setInterval(function () {
-            time--;
-            var minute = parseInt(time / 60);
-            var second = parseInt(time % 60).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-            var clock = (minute + ":" + second);
-            timerL.textContent = "Time Remaining: " + clock;
-        }, 1000);
+    if (time < 0 || questionId >= posers.length) {
+        theInevitableHeatDeathOfTheUniverseManifest();
     } else {
         endGame();
     }
@@ -152,6 +156,13 @@ var clearAll = function () {
     answerL4.textContent = "";
     answerL5.textContent = "";
     buttonL.textContent = "";
+    quiz.removeEventListener("click", function (event) {
+        if (event.target.id == key[questionId]) {
+            rightO();
+        } else {
+            wrongO();
+        };
+    });
 };
 
 
@@ -193,7 +204,9 @@ var wrongO = function () {
 
 //question function
 var quizzle = function () {
-    if (time < 0 || questionId > posers.length) {
+    if (time < 0 || questionId >= posers.length) {
+        console.log(questionId);
+        console.log(posers.length);
         endGame();
     } else {
         //call question object from array
@@ -209,11 +222,25 @@ var quizzle = function () {
     };
 };
 
+//end of game functions:
+//record score and time
+var scoreKeeping = function () {
+    var quizEndTime = time;
+    clearInterval(theInevitableHeatDeathOfTheUniverseManifest);
+    questionL.textContent = "Please enter any three initials to save your score:";
+    var initials = document.createElement("INPUT");
+    answerL1.appendChild(initials);
+    answerL2.textContent = (score + "/" + posers.length + " with " + quizEndTime + " seconds remaining");
+    initials.setAttribute("type", "text");
+    initials.setAttribute("id", "cursorfield");
+};
+
 //endGame function (to be elaborated with score keeping and such)
 var endGame = function () {
     clearAll();
-    timerL.textContent = "Time's Up!";
-    questionL.textContent = "GAME OVER"
+    timerL.textContent = "Game Over";
+    setTimeout(scoreKeeping(), 1000);
+    //scoreKeeping();
 };
 
 
@@ -221,6 +248,7 @@ var endGame = function () {
 // show end screen    
 // };
 
+//set up the start text function elements
 var startTest = function (event) {
     event.preventDefault()
     tick();
@@ -229,10 +257,7 @@ var startTest = function (event) {
     setTimeout(() => {
         //add eventlistener to question area
         quiz.addEventListener("click", function (event) {
-            console.log(event.target.id);
-            console.log(key[questionId]);
             if (event.target.id == key[questionId]) {
-                console.log("test")
                 rightO();
             } else {
                 wrongO();
@@ -241,24 +266,57 @@ var startTest = function (event) {
         //play the game don't let the game play you
         quizzle()
     }, 500);
-    //ensure the game will end one day
-    setTimeout(() => {
-        clearInterval(tick);
-        endGame();
-    }, parseInt(time * 1000));
 };
 
 buttonL.addEventListener("click", startTest);
 
 
+
+
 //lookup rerendering
 //put lis as hover over in css
 
-//make an array1 of array2s with each array1 being a question containing an array2 of awnsers, one of which reads false.
-//for loop the array1 through display on click
-//generate a value for the return buttons depending on the true value of the array2
-//onclick for the wrong value deducts time function, flashes error, goes to next array1
-//onclick for the right value goes to next item in array1
-//onclick to last array1 saves time as score.
-//if high score, save initials, ask to play again
-//else, return score, high score and ask to play again.
+//to do:
+// fix hover element
+// fix timer
+// create save score
+// finish end game, ask to play again? 
+// make cursor element
+
+
+// answerL1.addEventListener("input", function (event) {
+//     var initial = (event.target.content);
+//     console.log(event.target.textContent);
+//     answerL1.insertBefore(initial);
+
+
+
+
+//blinking cursor element
+// var enterText = function () {
+//     answerL1.setAttribute("id", "cursorfield")
+//     answerL1.appendChild(cursor);
+//     cursor.createElement("");
+//     cursor.setAttribute("type", "text");
+//     cursor.setAttribute("id", "cursor")
+//         var cursor = true;
+//         var blink = 500;
+//     setInterval(() => {
+//         if(cursor) {
+//             document.getElementById("cursor").style.opacity = 0;
+//             cursor = false;
+//         } else {
+//             document.getElementById("cursor").style.opacity = 1;
+//             cursor = true;
+//         }, blink);
+// }
+
+// var scoreKeeping = function() {
+//     cursor.addEventListener("input", function (event) {
+//         var initial = (event.target.content);
+//         console.log(event.target.textContent);
+//         answerL1.insertBefore(initial);
+//         cursor.value = "";
+// };
+//     if ()
+// }

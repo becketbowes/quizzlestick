@@ -51,4 +51,16 @@ li #question:hover {
     background-color:var(--textgreen);
 }
 
+li #cursorfield {
+    background-color: var(--textgreen);
+    color: var(--darkgreen);
+    width: 50px;
+    height: 20px;
+}
 
+p #cursor {
+    height: 20px;
+    width: 12px;
+    background-color: var(--textgreen);
+    color: var(--darkgreen)
+}
