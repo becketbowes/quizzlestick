@@ -19,6 +19,11 @@ var answerL4 = document.createElement("li");
 var answerL5 = document.createElement("li");
 var buttonL = document.createElement("h1");
 var cursor = document.createElement("p");
+var finalTimeL = document.createElement("ul");
+var finalDivL = document.createElement("div");
+var finalTitleL = document.createElement("h1");
+var finalInitialL = document.createElement("input", "type:text");
+var finalButton = document.createElement("h1");
 
 scoreL.textContent = "High Scores";
 timerL.textContent = "Time"
@@ -113,19 +118,22 @@ var posers = [poser1, poser2, poser3, poser4, poser5, poser6];
 var key = [5, 3, 4, 2, 5, 3]
 
 //clockworks
-var theInevitableHeatDeathOfTheUniverseManifest = setInterval(theInevitableInformationDeathOfTheUniverse, 1000);
-var theInevitableInformationDeathOfTheUniverse = function () {
-    time--;
-    var minute = parseInt(time / 60);
-    var second = parseInt(time % 60).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-    var clock = (minute + ":" + second);
-    timerL.textContent = "Time Remaining: " + clock;
-};
+
 //make the timer function
 var tick = function () {
-    if (time < 0 || questionId >= posers.length) {
-        theInevitableHeatDeathOfTheUniverseManifest();
+    console.log(time);
+    console.log(questionId);
+    console.log(posers.length);
+    if (time > 0 || questionId <= posers.length) {
+        setInterval(function() {
+            time--;
+            var minute = parseInt(time / 60);
+            var second = parseInt(time % 60).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+            var clock = (minute + ":" + second);
+            timerL.textContent = "Time Remaining: " + clock;
+        }, 1000);
     } else {
+        clearInterval(tick);
         endGame();
     }
 };
@@ -145,26 +153,6 @@ var clearQuiz = function () {
     answerL5.textContent = "";
     buttonL.textContent = "";
 };
-
-var clearAll = function () {
-    scoreL.textContent = "";
-    timerL.textContent = "";
-    questionL.textContent = "";
-    answerL1.textContent = "";
-    answerL2.textContent = "";
-    answerL3.textContent = "";
-    answerL4.textContent = "";
-    answerL5.textContent = "";
-    buttonL.textContent = "";
-    quiz.removeEventListener("click", function (event) {
-        if (event.target.id == key[questionId]) {
-            rightO();
-        } else {
-            wrongO();
-        };
-    });
-};
-
 
 //play the game
 
@@ -237,8 +225,10 @@ var scoreKeeping = function () {
 
 //endGame function (to be elaborated with score keeping and such)
 var endGame = function () {
-    clearAll();
-    timerL.textContent = "Game Over";
+    var finalTime = time
+    scoreL.textContent = "Final Score = " + score;
+    
+    timerL.textContent = "Game Over" + finalTime;
     setTimeout(scoreKeeping(), 1000);
     //scoreKeeping();
 };
@@ -320,3 +310,15 @@ buttonL.addEventListener("click", startTest);
 // };
 //     if ()
 // }
+
+    //play with this after class:
+    // lookup: call a function within the context of that function
+    // quiz.setAttribute("style", "display: none")
+
+    // quiz.removeEventListener("click", function (event) {
+    //     if (event.target.id == key[questionId]) {
+    //         rightO();
+    //     } else {
+    //         wrongO();
+    //     };
+    // });
