@@ -6,7 +6,6 @@ var body = document.body;
 var header = document.createElement("header");
 var scoreTime = document.createElement("ul");
 var scoreL = document.createElement("li");
-var ul2 = document.createElement("ul");
 var timerL = document.createElement("li");
 var section = document.createElement("section");
 var error = document.createElement("h2")
@@ -19,7 +18,7 @@ var answerL4 = document.createElement("li");
 var answerL5 = document.createElement("li");
 var buttonL = document.createElement("h1");
 var cursor = document.createElement("p");
-var finalTimeL = document.createElement("ul");
+var finalTimeL = document.createElement("li");
 var finalDivL = document.createElement("div");
 var finalTitleL = document.createElement("h1");
 var finalInitialL = document.createElement("input", "type:text");
@@ -34,6 +33,8 @@ answerL3.textContent = "";
 answerL4.textContent = "";
 answerL5.textContent = "";
 buttonL.textContent = "< Start Quiz >";
+finalTitleL.textContent = "Enter any three initials to save your score";
+finalButton.textContent = "< Save Score >"
 
 body.appendChild(header);
 header.appendChild(scoreTime)
@@ -62,6 +63,7 @@ answerL5.setAttribute("class", "question");
 answerL5.setAttribute("id", "5");
 section.setAttribute("style", "padding: 100px 30%; align-content: center;")
 buttonL.setAttribute("style", "font-weight:bold; text-decoration: underline;");
+
 
 //quiz question objects:
 const poser1 = {
@@ -101,7 +103,7 @@ const poser5 = {
     a1: "IBM Web Explorer",
     a2: "OS/2 Web Explorer",
     a3: "Apple Web Explorer",
-    a4: "Microsoft Exporer",
+    a4: "Microsoft Explorer",
     a5: "Netscape Navigator"
 };
 const poser6 = {
@@ -213,10 +215,6 @@ var quizzle = function () {
 //end of game functions:
 //record score and time
 var scoreKeeping = function () {
-    var quizEndTime = time;
-    clearInterval(theInevitableHeatDeathOfTheUniverseManifest);
-    questionL.textContent = "Please enter any three initials to save your score:";
-    var initials = document.createElement("INPUT");
     answerL1.appendChild(initials);
     answerL2.textContent = (score + "/" + posers.length + " with " + quizEndTime + " seconds remaining");
     initials.setAttribute("type", "text");
@@ -225,12 +223,21 @@ var scoreKeeping = function () {
 
 //endGame function (to be elaborated with score keeping and such)
 var endGame = function () {
-    var finalTime = time
+    var finalTime = time;
     scoreL.textContent = "Final Score = " + score;
-    
-    timerL.textContent = "Game Over" + finalTime;
-    setTimeout(scoreKeeping(), 1000);
+    finalTimeL.setAttribute("id", "timerShow");
+    finalTimeL.textContent = "Final Time = " + finalTime;
+    scoreTime.replaceChild(finalTimeL, timerL);
+    scoreTime.setAttribute("style", "width: 100%; display: flex; justify-content: space-between; flex-wrap: wrap; flex-direction: row;");
+    section.replaceChild(finalDivL, quiz);
+    finalDivL.appendChild(finalTitleL);
+    finalDivL.appendChild(finalInitialL);
+    finalDivL.appendChild(finalButton);
+    finalInitialL.setAttribute("style", "background-color: var(--textgreen); color: var(--darkgreen); width: 40px; height: 25px; border: none;");
+    finalButton.setAttribute("style", "font-weight:bold; text-decoration: underline;");
+    // setTimeout(scoreKeeping(), 1000);
     //scoreKeeping();
+    // finalButton.addEventListener("click", scoreKeeping);
 };
 
 
