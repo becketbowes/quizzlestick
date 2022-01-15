@@ -2,6 +2,7 @@
 var time = 120;
 var score = 0;
 var questionId = 0;
+var gameId = "QJS" [0, 1, 2, 3, 4]
 var body = document.body;
 var header = document.createElement("header");
 var scoreTime = document.createElement("ul");
@@ -63,6 +64,7 @@ answerL5.setAttribute("class", "question");
 answerL5.setAttribute("id", "5");
 section.setAttribute("style", "padding: 100px 30%; align-content: center;")
 buttonL.setAttribute("style", "font-weight:bold; text-decoration: underline;");
+finalButton.setAttribute("type", " text; maxlength='3'")
 
 
 //quiz question objects:
@@ -214,11 +216,15 @@ var quizzle = function () {
 
 //end of game functions:
 //record score and time
-var scoreKeeping = function () {
-    answerL1.appendChild(initials);
-    answerL2.textContent = (score + "/" + posers.length + " with " + quizEndTime + " seconds remaining");
-    initials.setAttribute("type", "text");
-    initials.setAttribute("id", "cursorfield");
+var scoreKeep = function () {
+    section.replaceChild(quiz, finalDivL);
+    clearQuiz();
+    var glory = localStorage.getItem(gameId);
+    var highScore = JSON.parse(glory);
+    questionL.textContent = "High Scores";
+    answerL1.textContent = highScore[0] + "-----" + highScore[1];
+    answerL2.textContent = 
+    console.log(highScore[0]);
 };
 
 //endGame function (to be elaborated with score keeping and such)
@@ -226,7 +232,7 @@ var endGame = function () {
     var finalTime = time;
     scoreL.textContent = "Final Score = " + score;
     finalTimeL.setAttribute("id", "timerShow");
-    finalTimeL.textContent = "Final Time = " + finalTime;
+    finalTimeL.textContent = "Final Time Bonus = " + finalTime;
     scoreTime.replaceChild(finalTimeL, timerL);
     scoreTime.setAttribute("style", "width: 100%; display: flex; justify-content: space-between; flex-wrap: wrap; flex-direction: row;");
     section.replaceChild(finalDivL, quiz);
@@ -234,10 +240,16 @@ var endGame = function () {
     finalDivL.appendChild(finalInitialL);
     finalDivL.appendChild(finalButton);
     finalInitialL.setAttribute("style", "background-color: var(--textgreen); color: var(--darkgreen); width: 40px; height: 25px; border: none;");
+    finalInitialL.setAttribute("id", "userId")
     finalButton.setAttribute("style", "font-weight:bold; text-decoration: underline;");
-    // setTimeout(scoreKeeping(), 1000);
-    //scoreKeeping();
-    // finalButton.addEventListener("click", scoreKeeping);
+    var scoreRecord = parseFloat(score + (finalTime / 120));
+    finalButton.addEventListener("click", function() {
+        document.querySelector("#userId");
+        var userInit = finalInitialL.value.trim();
+        var userScoreRecord = [userInit, scoreRecord]; 
+        localStorage.setItem(gameId, JSON.stringify(userScoreRecord)); 
+        scoreKeep();
+    });
 };
 
 
